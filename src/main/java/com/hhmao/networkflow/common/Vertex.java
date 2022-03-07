@@ -1,6 +1,7 @@
 package com.hhmao.networkflow.common;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Vertex<V> {
     // entry of vertex, e.g. task
