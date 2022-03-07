@@ -1,25 +1,25 @@
 package com.hhmao.networkflow.common;
 
 public class Edge<V> {
-    protected Vertex<V> from;
-    protected Vertex<V> to;
+    protected V from;
+    protected V to;
     protected double weight;
 
-    public Edge(Vertex<V> from, Vertex<V> to, double weight) {
+    public Edge(V from, V to, double weight) {
         this.from = from;
         this.to = to;
         this.weight = weight;
     }
 
-    public Edge(Vertex<V> from, Vertex<V> to) {
+    public Edge(V from, V to) {
         this(from, to, 0);
     }
 
-    public Vertex<V> getSource() {
+    public V getSource() {
         return this.from;
     }
 
-    public Vertex<V> getDestination() {
+    public V getDestination() {
         return this.to;
     }
 

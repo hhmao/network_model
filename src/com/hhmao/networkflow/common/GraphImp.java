@@ -1,77 +1,61 @@
 package com.hhmao.networkflow.common;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
-public class GraphImp<V> implements Graph<V>{
+public class GraphImp<V> implements Graph<V> {
 
-    protected LinkedList<Vertex<V>> vertices;
-    protected Set<Edge<V>> edges;
+    protected Set<V> vertices;
+    protected Map<V, Vertex<V>> entry2Vertex;
 
     public GraphImp() {
-        vertices = new LinkedList<>();
-        edges = new HashSet<>();
+        vertices = new HashSet<>();
+        entry2Vertex = new HashMap<>();
     }
 
     @Override
-    public int addVertex(Vertex<V> v) {
-        int index = -1;
-        if(v != null) {
+    public void addVertex(V v) {
+        if (v != null) {
             vertices.add(v);
-            index = vertices.indexOf(v);
-            // todo update edges
+            entry2Vertex.put(v, new Vertex<>(v));
         }
-        return index;
     }
 
     @Override
     public void addEdge(Edge<V> e) {
-        if(e == null) {
+        if (e == null) {
             return;
         }
-        edges.add(e);
         Vertex<V> ve = getVertex(e.getSource());
-        if(ve != null) {
+        if (ve != null) {
             ve.addEdge(e);
         }
     }
 
     @Override
-    public Vertex<V> remove(Vertex<V> v) {
+    public V remove(V v) {
         Vertex<V> ret = getVertex(v);
-        if(ret != null) {
-            vertices.remove(ret);
-            // todo remove related edges
-            return ret;
+        if (ret != null) {
+            vertices.remove(ret.entry);
+            return v;
         }
         return null;
     }
 
     @Override
     public Edge<V> remove(Edge<V> e) {
-        Edge<V> ret = null;
-
-        if(e != null) {
+        if (e != null) {
             Vertex<V> ve = getVertex(e.getSource());
-            if(ve != null) {
-                ret = ve.removeEdge(e.getDestination());
+            if (ve != null) {
+                ve.removeEdge(e);
             }
         }
-
-        return ret;
+        return e;
     }
 
-    private Vertex<V> getVertex(Vertex<V> v) {
-        Vertex<V> ret = null;
-        if(v != null) {
-            for(Vertex<V> ve : vertices) {
-                if(ve != v) {
-                    ret = ve;
-                    break;
-                }
-            }
+    private Vertex<V> getVertex(V v) {
+        if (v != null && entry2Vertex.containsKey(v)) {
+            return entry2Vertex.get(v);
         }
-        return ret;
+        return null;
     }
 }

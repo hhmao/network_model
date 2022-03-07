@@ -3,45 +3,29 @@ package com.hhmao.networkflow.common;
 import java.util.*;
 
 public class Vertex<V> {
-
     // entry of vertex, e.g. task
     protected V entry;
-    protected List<Edge<V>> edges;
+    protected Set<Edge<V>> outEdges;
+    protected Set<Edge<V>> inEdges;
 
     public Vertex(V v) {
         this.entry = v;
-        this.edges = new LinkedList<>();
+        this.inEdges = new HashSet<>();
+        this.outEdges = new HashSet<>();
     }
 
     public boolean addEdge(Edge<V> e) {
-        if(getEdge(e.getDestination()) == null) {
-            edges.add(e);
-            return true;
+        boolean status = false;
+        if(e.from == entry) {
+            outEdges.add(e);
+        }else if(e.to == entry){
+            inEdges.add(e);
         }
-        return false;
+        return status;
     }
 
-    public Edge<V> getEdge(Vertex<V> dest) {
-        Edge<V> ret = null;
-        if(dest != null) {
-            for(Edge<V> edge : edges) {
-                if(edge.getDestination() != null &&
-                        dest.equals(edge.getDestination())) {
-                    ret = edge;
-                    break;
-                }
-            }
-        }
-        return ret;
-    }
-
-
-    public Edge<V> removeEdge(Vertex<V> dest) {
-        Edge<V> ret = getEdge(dest);
-        if( ret == null ){
-            return null;
-        }
-        edges.remove(ret);
-        return ret;
+    public void removeEdge(Edge<V> e) {
+        inEdges.remove( e );
+        outEdges.remove(e);
     }
 }
