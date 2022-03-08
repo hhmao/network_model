@@ -29,4 +29,19 @@ public class Vertex<V> {
         inEdges.remove( e );
         outEdges.remove(e);
     }
+
+    Set<Edge<V>> getInEdges(){
+        return inEdges;
+    }
+
+    Set<Edge<V>> getOutEdges(){
+        return outEdges;
+    }
+
+    // todo: implement a method return a iterator with all edges
+    Set<Edge<V>> getAllEdges(){
+        Set<Edge<V>> allEdges = new HashSet<>(inEdges);
+        allEdges.addAll(outEdges);
+        return allEdges;
+    }
 }
